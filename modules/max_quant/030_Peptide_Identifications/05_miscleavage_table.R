@@ -22,9 +22,20 @@ init <- function() {
     
       plotdata[is.na(plotdata)] = 0
       
-      plotdata <- plotdata %>%
-      dplyr::mutate(`% Missed cleavages`=(`1` + 2*`2`) / (`0` + `1` + 2*`2`) * 100) %>%
-      dplyr::rename(None='0')
+      #fix for samples with only maximum 1 mis-cleavage detected
+      if(ncol(plotdata)==4) {
+        plotdata <- plotdata |>
+          dplyr::mutate(`% Missed cleavages`=(`1` + 2*`2`) / (`0` + `1` + 2*`2`) * 100) |>
+          dplyr::rename(None='0')
+      } else {
+        plotdata <- plotdata |>
+          dplyr::mutate(`% Missed cleavages`=(`1`) / (`0` + `1`) * 100) |>
+          dplyr::rename(None='0')
+      }
+      
+      # plotdata <- plotdata %>%
+      # dplyr::mutate(`% Missed cleavages`=(`1` + 2*`2`) / (`0` + `1` + 2*`2`) * 100) %>%
+      # dplyr::rename(None='0')
     
     
     
