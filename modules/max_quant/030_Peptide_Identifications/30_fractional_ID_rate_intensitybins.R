@@ -21,8 +21,10 @@ init <- function() {
     validate(need((nrow(plotdata) > 1), paste0('No Rows selected')))
     
     plotdata$bins<-cut(plotdata$Intensity, breaks=c(0,1e4,1e5,1e6,1e7,1e8,1e9,1e10,1e20))
-    
-    plotdata$count<-plotdata$MS.MS.Count
+
+    #Fix possible typo in column name
+    plotdata$count<-plotdata$MS.MS.count
+    #    plotdata$count<-plotdata$MS.MS.Count     
     plotdata$count[plotdata$count > 0] <- 1
     
     plotdata <- plotdata %>% 
